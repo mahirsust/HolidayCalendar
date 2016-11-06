@@ -124,11 +124,5 @@ public class ShowMyHolidays extends Activity{
 
 
         }
-
-
-
-
-
-
     }
 }

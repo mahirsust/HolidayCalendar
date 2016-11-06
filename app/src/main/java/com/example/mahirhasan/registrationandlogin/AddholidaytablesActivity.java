@@ -151,7 +151,7 @@ public class AddholidaytablesActivity extends AppCompatActivity {
     }
     private void Addtables(final String email1, final String addremove2)
     {
-        System.out.println("here for " + addremove2);
+        //System.out.println("here for " + addremove2);
         // Tag used to cancel the request
         String tag_string_req = "req_addremovetables";
 
@@ -166,7 +166,7 @@ public class AddholidaytablesActivity extends AppCompatActivity {
                 //hideDialog();
 
                 try {
-                    System.out.println(response);
+                    //System.out.println(response);
                     //System.out.println("1error");
                     JSONObject jObj = new JSONObject(response);
                     //System.out.println("error1");
@@ -188,7 +188,7 @@ public class AddholidaytablesActivity extends AppCompatActivity {
                         }
 
                         String successMsg = "Your choice has been updated!";
-                        System.out.println(successMsg);
+                       // System.out.println(successMsg);
                         Toast.makeText(getApplicationContext(),
                                 successMsg, Toast.LENGTH_SHORT).show();
                         dbHandler.addData(email1, data);
@@ -257,7 +257,7 @@ public class AddholidaytablesActivity extends AppCompatActivity {
                     if (!error) {
 
                         String successMsg = "Your choice has been updated!";
-                        System.out.println(successMsg);
+                        //System.out.println(successMsg);
                         Toast.makeText(getApplicationContext(),
                                 successMsg, Toast.LENGTH_SHORT).show();
 

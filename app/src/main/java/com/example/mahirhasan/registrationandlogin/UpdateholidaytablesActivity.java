@@ -92,11 +92,11 @@ public class UpdateholidaytablesActivity extends AppCompatActivity {
                 }
 
                 else{
-                    System.out.println("paisi -> " + mid_date);
+                    //System.out.println("paisi -> " + mid_date);
                     int tag = 0;
                     //updatetables(email2, category, mid_date, event);
                     for(int i=0; ; i++){
-                        System.out.println("Here is "+category);
+                        //System.out.println("Here is "+category);
                         Holiday holiday = new Holiday(event, mid_date, category);
                         data.add(holiday);
                         if (mid_date.equals(to_date)) break;
@@ -105,7 +105,8 @@ public class UpdateholidaytablesActivity extends AppCompatActivity {
                         try {
                             c.setTime(sdf.parse(mid_date));
                         } catch (Exception e) {
-                            System.out.println("error paisi");
+                            Toast.makeText(getApplicationContext(),
+                                    "Error!", Toast.LENGTH_SHORT).show();
                         }
                         c.add(Calendar.DATE, 1);  // number of days to add
                         //System.out.println("error paisi2");
@@ -114,7 +115,7 @@ public class UpdateholidaytablesActivity extends AppCompatActivity {
                         //System.out.println("error paisi3");
                         //updatetables(email2, category, mid_date, event);
                         //System.out.println("error paisi4");
-                        System.out.println("paisi -> " + mid_date);
+                        //System.out.println("paisi -> " + mid_date);
 
                     }
                     dbHandler.addData(email, data);

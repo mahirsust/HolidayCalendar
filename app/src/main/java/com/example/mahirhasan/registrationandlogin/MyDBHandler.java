@@ -38,7 +38,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
 
     //Add a new row to the database
     public void addData(String Table_Name, Vector<Holiday> data ){
-        System.out.println("DB = " + Table_Name);
+        //System.out.println("DB = " + Table_Name);
 
         SQLiteDatabase db = getWritableDatabase();
         // onUpgrade(db, 1, 1);
@@ -99,7 +99,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
             recordSet.moveToNext();
         }
         db.close();
-        System.out.println("DB = Data Size = " + data.size());
+        //System.out.println("DB = Data Size = " + data.size());
         return data;
     }
 

@@ -81,17 +81,17 @@ public class RegistrationActivity extends AppCompatActivity {
                 String password = password_to_register.getText().toString();
                 String category = spinner.getSelectedItem().toString();
                 getcategory = category;
-                System.out.println("paisi " + category);
+                //System.out.println("paisi " + category);
                 if (!name.isEmpty() && !email.isEmpty() && !password.isEmpty() && !category.isEmpty()) {
 
                     registerUser(name, email, password, category);
                     String errorMsg = "Registration Successful!";
                     Toast.makeText(getApplicationContext(),
                             errorMsg, Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(RegistrationActivity.this,
-                            LoginActivity.class);
-                    startActivity(intent);
-                    finish();
+//                    Intent intent = new Intent(RegistrationActivity.this,
+//                            LoginActivity.class);
+//                    startActivity(intent);
+//                    finish();
 
                 } else {
                     Snackbar.make(v, "Please enter the credentials!", Snackbar.LENGTH_LONG)
@@ -134,9 +134,11 @@ public class RegistrationActivity extends AppCompatActivity {
                         Intent intent = new Intent(
                                 RegistrationActivity.this,
                                 LoginActivity.class);
-                        String successMsg = jObj.getString("success_msg");
-                        Toast.makeText(getApplicationContext(),
-                                successMsg, Toast.LENGTH_LONG).show();
+                        startActivity(intent);
+                        finish();
+//                        String successMsg = jObj.getString("success_msg");
+//                        Toast.makeText(getApplicationContext(),
+//                                successMsg, Toast.LENGTH_LONG).show();
                         ///startActivity(intent);
                         //finish();
                     } else {

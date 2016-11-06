@@ -114,7 +114,7 @@ public class CalendarActivityFragment extends Fragment implements FlexibleCalend
         //getData();
        // final Vector<Holiday> data;
         data = (Vector) dbHandler.databaseToString(email).clone();
-        System.out.println("here " + data.size());
+        //System.out.println("here " + data.size());
 
 
         calendarView.setEventDataProvider(new FlexibleCalendarView.EventDataProvider() {
