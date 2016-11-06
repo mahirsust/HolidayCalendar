@@ -1,0 +1,57 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:id="@+id/scrollview"
+        android:fillViewport="true">
+
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tablelayout"
+            android:showDividers="middle"
+            android:shrinkColumns="0"
+            android:stretchColumns="2">
+        </TableLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/addBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/scrollview"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp"
+        android:text="Add">
+
+    </Button>
+    <Button
+        android:id="@+id/deleteBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/scrollview"
+        android:layout_alignBaseline="@+id/addBtn"
+        android:layout_marginLeft="135dp"
+        android:text="Delete">
+
+    </Button>
+    <Button
+        android:id="@+id/backBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/scrollview"
+        android:layout_alignBaseline="@+id/addBtn"
+        android:layout_marginLeft="260dp"
+        android:text="Back">
+
+    </Button>
+</RelativeLayout>

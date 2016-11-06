@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_brown">
+
+
+    <CheckBox
+        android:text="            DU_Teacher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkBox4"
+        android:layout_marginTop="22dp"
+        android:layout_below="@+id/checkBox3"
+        android:layout_alignStart="@+id/checkBox3"
+        android:layout_alignEnd="@+id/checkBox3"
+        android:textColor="@color/colorPrimaryDark"/>
+
+    <CheckBox
+        android:text="            BUET_Student"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkBox5"
+        android:layout_marginTop="22dp"
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/checkBox4"
+        android:layout_alignEnd="@+id/checkBox4"
+        android:textColor="@color/colorPrimaryDark"/>
+
+    <CheckBox
+        android:text="            BUET_Teacher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkBox6"
+        android:layout_marginTop="22dp"
+        android:layout_below="@+id/checkBox5"
+        android:layout_alignStart="@+id/checkBox5"
+        android:layout_alignEnd="@+id/checkBox5"
+        android:textColor="@color/colorPrimaryDark"/>
+
+    <CheckBox
+        android:text="            SUST_Student"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:id="@+id/checkBox"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentLeft="true"
+        android:layout_toStartOf="@+id/button3"
+        android:layout_marginLeft="60dp"
+        android:textColor="@color/colorPrimaryDark"/>
+
+    <CheckBox
+        android:text="            SUST_Teacher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkBox2"
+        android:layout_marginTop="22dp"
+        android:layout_below="@+id/checkBox"
+        android:layout_alignStart="@+id/checkBox"
+        android:layout_toStartOf="@+id/button3"
+        android:textColor="@color/colorPrimaryDark"/>
+
+    <CheckBox
+        android:text="            DU_Student"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkBox3"
+        android:layout_marginTop="22dp"
+        android:layout_below="@+id/checkBox2"
+        android:layout_alignStart="@+id/checkBox2"
+        android:layout_alignEnd="@+id/checkBox2"
+        android:textColor="@color/colorPrimaryDark"/>
+
+    <CheckBox
+        android:text="            Bank_Holidays"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkBox7"
+        android:layout_marginTop="22dp"
+        android:layout_below="@+id/checkBox6"
+        android:layout_alignStart="@+id/checkBox6"
+        android:layout_alignEnd="@+id/checkBox6"
+        android:textColor="@color/colorPrimaryDark"/>
+
+    <Button
+        android:text="Back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button3"
+        android:layout_marginEnd="15dp"
+        android:layout_alignBaseline="@+id/button"
+        android:layout_alignBottom="@+id/button"
+        android:layout_alignParentEnd="true" />
+
+
+
+    <Button
+        android:text="ADD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/button"
+
+        android:layout_alignParentBottom="true"
+        />
+    <Button
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editButton"
+        android:text="List of Holidays"
+        android:layout_alignBaseline="@id/button"
+        android:layout_marginLeft="110dp"
+
+        />
+</RelativeLayout>

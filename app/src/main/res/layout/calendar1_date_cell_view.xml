@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.example.mahirhasan.registrationandlogin.widget.ExampleCellView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:textSize="14sp"
+    android:gravity="center"
+    android:textColor="#000000"
+    android:background="@drawable/example_background4"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
