@@ -39,6 +39,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private Session session;
     private ProgressDialog pDialog;
     public static String getcategory;
+    MyDBHandler dbHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,8 @@ public class RegistrationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registration);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        dbHandler = new MyDBHandler(this, null, null, 1);
 
         spinner = (Spinner) findViewById(R.id.cat_spinner);
 // Create an ArrayAdapter using the string array and a default spinner layout
@@ -84,6 +87,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 //System.out.println("paisi " + category);
                 if (!name.isEmpty() && !email.isEmpty() && !password.isEmpty() && !category.isEmpty()) {
 
+                    dbHandler.CreateTable(email);
                     registerUser(name, email, password, category);
                     String errorMsg = "Registration Successful!";
                     Toast.makeText(getApplicationContext(),
@@ -106,7 +110,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 Intent intent = new Intent(RegistrationActivity.this,
                         LoginActivity.class);
                 startActivity(intent);
-                finish();
+               // finish();
             }
         });
     }
@@ -135,7 +139,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                 RegistrationActivity.this,
                                 LoginActivity.class);
                         startActivity(intent);
-                        finish();
+                        //finish();
 //                        String successMsg = jObj.getString("success_msg");
 //                        Toast.makeText(getApplicationContext(),
 //                                successMsg, Toast.LENGTH_LONG).show();

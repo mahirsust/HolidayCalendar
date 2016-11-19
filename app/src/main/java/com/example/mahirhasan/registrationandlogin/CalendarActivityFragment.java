@@ -49,7 +49,7 @@ public class CalendarActivityFragment extends Fragment implements FlexibleCalend
     private int dd, mm, yy;
     MyDBHandler dbHandler;
 
-    Vector<Holiday> data = new Vector<Holiday>();
+    ArrayList<Holiday> data;
 
   public CalendarActivityFragment() {
     }
@@ -60,6 +60,7 @@ public class CalendarActivityFragment extends Fragment implements FlexibleCalend
         super.onCreate(savedInstanceState);
         email = LoginActivity.getemail;
         dbHandler = new MyDBHandler(getActivity(), null, null, 1);
+        data = new ArrayList<Holiday>();
         //getData();
 
     }
@@ -113,7 +114,7 @@ public class CalendarActivityFragment extends Fragment implements FlexibleCalend
 
         //getData();
        // final Vector<Holiday> data;
-        data = (Vector) dbHandler.databaseToString(email).clone();
+        data = dbHandler.databaseToString(email);
         //System.out.println("here " + data.size());
 
 
@@ -131,24 +132,7 @@ public class CalendarActivityFragment extends Fragment implements FlexibleCalend
                     //System.out.println(i + " " + category);
 
                 if (year == yy && month == mm-1 && day == dd) {
-
-                    //System.out.println("found " + i + " " + category);
-                    if (category.equals("SUST_Student"))
-                        eventColors.add(new CalendarEvent(android.R.color.holo_red_light));
-                    else if (category.equals("SUST_Teacher"))
-                        eventColors.add(new CalendarEvent(android.R.color.holo_purple));
-                    else if (category.equals("Buet_Teacher"))
-                        eventColors.add(new CalendarEvent(android.R.color.holo_green_dark));
-                    else if (category.equals("Buet_Student"))
-                        eventColors.add(new CalendarEvent(android.R.color.holo_orange_dark));
-                    else if (category.equals("DU_Student"))
-                        eventColors.add(new CalendarEvent(android.R.color.holo_blue_light));
-                    else if (category.equals("DU_Teacher"))
-                        eventColors.add(new CalendarEvent(android.R.color.primary_text_light));
-                    else if (category.equals("Bank_Holidays"))
-                        eventColors.add(new CalendarEvent(android.R.color.holo_blue_bright));
-                    else eventColors.add(new CalendarEvent(android.R.color.holo_red_dark));
-
+                     eventColors.add(new CalendarEvent(android.R.color.holo_red_dark));
                 }
             }
 
@@ -244,7 +228,8 @@ public class CalendarActivityFragment extends Fragment implements FlexibleCalend
 
         if(ss1.equals("")) tst = cal.getTime().toString();
         else  tst = cal.getTime().toString()+ "\n"+ name + "\nCategory : " + ss1;
-        Toast.makeText(getActivity(),tst , Toast.LENGTH_LONG).show();
+        ((ShowmycalendarActivity)getActivity()).setText(tst);
+        //Toast.makeText(getActivity(),tst , Toast.LENGTH_LONG).show();
     }
 
 

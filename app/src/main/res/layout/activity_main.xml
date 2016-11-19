@@ -4,11 +4,22 @@
     android:background="@color/light_brown">
 
     <ImageView
+        android:id="@+id/imagevw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:src="@drawable/logo"
         android:layout_marginLeft="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="text"
+        android:layout_below="@id/imagevw"
+        android:layout_marginTop="30dp"
+        android:textSize="20dp"
+        android:id="@+id/welcometext"/>
 
     <Button
         android:id="@+id/btnaddholidaytables"

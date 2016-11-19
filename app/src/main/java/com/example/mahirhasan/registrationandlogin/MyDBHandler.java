@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.support.design.widget.TabLayout;
 import android.widget.TableLayout;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 public class MyDBHandler extends SQLiteOpenHelper{
@@ -26,8 +27,9 @@ public class MyDBHandler extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // String query = "CREATE TABLE " + Table_Name + "(" + COLUMN_HolidayName + " TEXT, " + COLUMN_date + " TEXT, " +  COLUMN_category + " TEXT " +");";
-        //db.execSQL(query);
+        String query = "CREATE TABLE IF NOT EXISTS " + Table_Name + "(" + COLUMN_HolidayName + " TEXT, " + COLUMN_date + " TEXT, "
+                +  COLUMN_category + " TEXT " +");";
+        db.execSQL(query);
     }
 
     @Override
@@ -36,12 +38,18 @@ public class MyDBHandler extends SQLiteOpenHelper{
         onCreate(db);
     }
 
+    public void CreateTable(String Table_Name) {
+        String query = "CREATE TABLE " + Table_Name + "(" + COLUMN_HolidayName + " TEXT, " + COLUMN_date + " TEXT, " +  COLUMN_category + " TEXT " +");";
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL(query);
+    }
+
     //Add a new row to the database
     public void addData(String Table_Name, Vector<Holiday> data ){
         //System.out.println("DB = " + Table_Name);
 
         SQLiteDatabase db = getWritableDatabase();
-        // onUpgrade(db, 1, 1);
+        //onUpgrade(db, 1, 1);
         String query = "CREATE TABLE IF NOT EXISTS " + Table_Name + "(" + COLUMN_HolidayName + " TEXT, " + COLUMN_date + " TEXT, "
                 +  COLUMN_category + " TEXT " +");";
         db.execSQL(query);
@@ -70,13 +78,29 @@ public class MyDBHandler extends SQLiteOpenHelper{
         db.execSQL("DELETE FROM " + Table_Name + " WHERE " + COLUMN_category + "=\"" + category + "\";");
     }
 
+    public void deleteoneData(String Table_Name, String date, String category){
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("DELETE FROM " + Table_Name + " WHERE " + COLUMN_category + "=\"" + category
+                +"\"" + " AND " + COLUMN_date + "=\"" + date + "\";");
+    }
+
+    public void updateData(String Table_Name, String name, String date, String category){
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("UPDATE " + Table_Name + " SET " + COLUMN_HolidayName + "=\"" + name + "\","
+                + COLUMN_category + "=\"" + category + "\","
+                + COLUMN_date + "=\"" + date +"\""
+                +" WHERE " + COLUMN_category + "=\"" + category
+                +"\"" + " AND " + COLUMN_date + "=\"" + date + "\";");
+    }
+
     // this is goint in record_TextView in the Main activity.
-    public Vector<Holiday> databaseToString(String Table_Name){
+    public ArrayList<Holiday> databaseToString(String Table_Name){
 
         // String dbString = "";
         SQLiteDatabase db = getWritableDatabase();
-        Vector <Holiday> data = new Vector<Holiday>();
+        ArrayList <Holiday> data = new ArrayList<Holiday>();
         // Holiday h = new Holiday();
+        //System.out.println("Printing data");
         String query = "CREATE TABLE IF NOT EXISTS " + Table_Name + "(" + COLUMN_HolidayName + " TEXT, " + COLUMN_date + " TEXT, "
                 +  COLUMN_category + " TEXT " +");";
         String query1 = "SELECT * FROM " + Table_Name;

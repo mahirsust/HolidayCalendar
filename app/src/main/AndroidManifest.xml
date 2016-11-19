@@ -40,10 +40,13 @@
             android:label="@string/title_activity_addholidaytables"
             android:theme="@style/AppTheme" />
         <activity android:name=".UpdateholidaytablesActivity" />
-        <activity android:name=".ShowmycalendarActivity"
+        <activity
+            android:name=".ShowmycalendarActivity"
             android:label="@string/title_activity_showmycalendar"
-            android:theme="@style/AppTheme"/>
-        <activity android:name=".ShowMyHolidays"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".ShowMyHolidays" />
+        <activity android:name=".Main2Activity" />
+        <activity android:name=".ShowMyHolidays2"></activity>
     </application>
 
 </manifest>

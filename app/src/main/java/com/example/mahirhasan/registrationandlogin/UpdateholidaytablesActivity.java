@@ -140,7 +140,7 @@ public class UpdateholidaytablesActivity extends AppCompatActivity {
     private void cancel() {
         Intent intent = new Intent(UpdateholidaytablesActivity.this, ShowMyHolidays.class);
         startActivity(intent);
-        finish();
+       // finish();
     }
 
     @SuppressWarnings("deprecation")
@@ -156,15 +156,15 @@ public class UpdateholidaytablesActivity extends AppCompatActivity {
                 throw new RuntimeException("Unknow button ID");
         }
         showDialog(id);
-        Toast.makeText(getApplicationContext(), "success", Toast.LENGTH_SHORT)
-                .show();
+        /*Toast.makeText(getApplicationContext(), "success", Toast.LENGTH_SHORT)
+                .show();*/
     }
 
     @Override
     protected Dialog onCreateDialog(int id) {
         // TODO Auto-generated method stub
         if (id == 999 || id == 9999) {
-            return new DatePickerDialog(UpdateholidaytablesActivity.this, myDateListener, year, month, day);
+            return new DatePickerDialog(UpdateholidaytablesActivity.this, myDateListener, year, month-1, day);
         }
         return null;
     }

@@ -7,25 +7,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 
 public class ShowmycalendarActivity extends AppCompatActivity {
     private ImageView backbtn;
+    private TextView show;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_showmycalendar);
 
-        backbtn = (ImageView) findViewById(R.id.iii);
-        backbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ShowmycalendarActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+        show = (TextView) findViewById(R.id.show);
+
+
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -38,6 +34,10 @@ public class ShowmycalendarActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void setText(String st) {
+        show.setText(st);
     }
 
 }

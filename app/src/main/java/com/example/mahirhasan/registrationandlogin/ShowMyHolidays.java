@@ -1,128 +1,128 @@
 package com.example.mahirhasan.registrationandlogin;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import android.app.Activity;
-import android.content.Context;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.TableLayout;
-import android.widget.TableRow;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Vector;
 
-public class ShowMyHolidays extends Activity{
-
-    private TableLayout tableLayout;
-    private Context context;
+public class ShowMyHolidays extends Activity
+{
+    private ArrayList<Holiday> list;
+    private ListView lview;
     MyDBHandler dbHandler;
-    private Button addbtn;
-    private Button deletebtn;
-    private Button backbtn;
-    private String email;
+    private Button addbtn,deletebtn, backbtn;
+    private listviewAdapter adapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_my_holidays);
-        context = this;
         dbHandler = new MyDBHandler(this, null, null, 1);
-        tableLayout = (TableLayout) findViewById(R.id.tablelayout);
+
+        list = new ArrayList<Holiday>();
+        populateList();
+        lview = (ListView) findViewById(R.id.listview);
+        adapter = new listviewAdapter(this, list);
+        lview.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+
         addbtn = (Button) findViewById(R.id.addBtn);
-        deletebtn = (Button) findViewById(R.id.deleteBtn);
-        backbtn = (Button) findViewById(R.id.backBtn);
-        email = LoginActivity.getemail;
-        System.out.println(email);
-
-        backbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ShowMyHolidays.this, AddholidaytablesActivity.class);
-                finish();
-                startActivity(intent);
-
-            }
-        });
         addbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ShowMyHolidays.this, UpdateholidaytablesActivity.class);
                 startActivity(intent);
-                finish();
-
             }
         });
-        deletebtn.setOnClickListener(new View.OnClickListener() {
+
+        lview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+             @Override
+             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                 // Show input box
+                 System.out.println("KAJ KORSE");
+                 showInputBox(list.get(position),position);
+             }
+         });
+
+        backbtn = (Button) findViewById(R.id.backBtn);
+        backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),
-                        "This feature will be added soon!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(ShowMyHolidays.this, AddholidaytablesActivity.class);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    public void showInputBox(Holiday oldItem, final int index){
+        final Dialog dialog=new Dialog(ShowMyHolidays.this);
+        dialog.setContentView(R.layout.input_box);
+        dialog.setTitle("Update Item");
+
+        final EditText edit_name=(EditText)dialog.findViewById(R.id.edit_name);
+        edit_name.setText(oldItem.getName());
+        edit_name.setSelection(edit_name.getText().length());
+
+        final EditText edit_category=(EditText)dialog.findViewById(R.id.edit_category);
+        edit_category.setText(oldItem.getCategory());
+        edit_category.setSelection(edit_category.getText().length());
+
+        final EditText edit_date=(EditText)dialog.findViewById(R.id.edit_date);
+        edit_date.setText(oldItem.getDate());
+        edit_date.setSelection(edit_date.getText().length());
+
+        Button save = (Button)dialog.findViewById(R.id.save_edit);
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                list.set(index, new Holiday(edit_name.getText().toString(), edit_date.getText().toString(), edit_category.getText().toString()));
+                dbHandler.updateData(LoginActivity.getemail, edit_name.getText().toString(), edit_date.getText().toString(), edit_category.getText().toString());
+                adapter.notifyDataSetChanged();
+                dialog.dismiss();
+            }
+        });
+
+        Button cancel = (Button)dialog.findViewById(R.id.cancel_edit);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        Button delete = (Button)dialog.findViewById(R.id.delete_edit);
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                list.remove(index);
+                dbHandler.deleteoneData(LoginActivity.getemail, edit_date.getText().toString(), edit_category.getText().toString() );
+                adapter.notifyDataSetChanged();
+                dialog.dismiss();
 
             }
         });
-        addHeaderRow();
-        printDataBase();
 
+        dialog.show();
     }
 
 
-    public  void addHeaderRow(){
-        TableRow rowHeader = new TableRow(context);
-        rowHeader.setBackgroundColor(Color.parseColor("#c0c0c0"));
-        rowHeader.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
-                TableLayout.LayoutParams.WRAP_CONTENT));
-
-        String[] headerText={"Holiday","Date","Category"};
-        for(String c:headerText) {
-            TextView tv = new TextView(this);
-            tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
-                    TableRow.LayoutParams.WRAP_CONTENT, 1));
-            tv.setGravity(Gravity.CENTER);
-            tv.setTextSize(18);
-            tv.setPadding(5, 5, 5, 5);
-            tv.setText(c);
-            rowHeader.addView(tv);
-        }
-        tableLayout.addView(rowHeader);
-
-    }
-    public void printDataBase() {
-        //System.out.println("YESSSSS");
-        Vector<Holiday> data;
-        data = (Vector) dbHandler.databaseToString(email).clone();
-        //System.out.println("Paisiiiiiiiiiiiiiii -> " + data.size());
-        for(int i=0; i<data.size(); i++){
-            String name = data.get(i).getName();
-            String date = data.get(i).getDate();
-            String category = data.get(i).getCategory();
-            // System.out.println(name + " " + date + " " + category);
-
-            TableRow row = new TableRow(context);
-            row.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
-                    TableLayout.LayoutParams.WRAP_CONTENT));
-
-            row.setBackgroundResource(R.drawable.border);
-            String[] colText={name,date,category};
-
-            for(String text:colText) {
-                TextView tv = new TextView(this);
-                tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
-                        TableRow.LayoutParams.WRAP_CONTENT));
-                tv.setBackgroundResource(R.drawable.border);
-                tv.setGravity(Gravity.LEFT);
-                tv.setTextSize(16);
-                tv.setPadding(5, 5, 5, 5);
-                tv.setText(text);
-                row.addView(tv);
-            }
-            tableLayout.addView(row);
-
-
-        }
+    private void populateList() {
+        this.list = dbHandler.databaseToString(LoginActivity.getemail);
     }
 }

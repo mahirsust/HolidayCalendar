@@ -26,13 +26,13 @@ import java.util.Vector;
 
 public class AddholidaytablesActivity extends AppCompatActivity {
 
-    private Button btnadd;
     private Button btncancel;
-    private Button btnedit;
+    private Button ListButton;
+    private int cnt1, cnt2;
     private CheckBox check, c1, c2, c3, c4, c5, c6, c7;
-    private static String addremove1, addremove2, email1, cc1;
-    private boolean arr[] = new boolean[7];
+    private static String addremove1, email1;
     private static String date1, event1, category1, choices;
+    private Toast toast;
     Vector <Holiday> data = new Vector<Holiday>();
     MyDBHandler dbHandler;
 
@@ -52,41 +52,11 @@ public class AddholidaytablesActivity extends AppCompatActivity {
         c7 = (CheckBox)findViewById(R.id.checkBox7);
 
         dbHandler = new MyDBHandler(this, null, null, 1);
-        email1 = LoginActivity.getemail;
         dbHandler.setName(email1);
+        email1 = LoginActivity.getemail;
         choices = LoginActivity.getchoices;
-        /*Toast.makeText(getApplicationContext(),
-                "Here i got " + choices, Toast.LENGTH_SHORT).show();*/
 
         if(choices != null) markchoices();
-
-        btnadd = (Button) findViewById(R.id.button);
-        btnadd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //String addstr="";
-                addremove1=checked();
-
-                //choices = getchoices(email1);
-                System.out.println(addremove1 + " " + choices);
-                changechoices( email1, addremove1);
-                //choices = checked();
-                for( int i=0; i<addremove1.length(); i++)
-                {
-                    System.out.println(i + " " + addremove1.charAt(i)+choices.charAt(i));
-                    if(addremove1.charAt(i) != choices.charAt(i))
-                    {
-                        if(addremove1.charAt(i) == '1')
-                            Addtables(email1, get_category(Integer.toString(i+1)));
-                        else Removetables(email1, get_category(Integer.toString(i+1)));
-                    }
-
-                }
-                choices = addremove1;
-                LoginActivity.getchoices = addremove1;
-                markchoices();
-            }
-        });
 
         btncancel = (Button) findViewById(R.id.button3);
         btncancel.setOnClickListener(new View.OnClickListener() {
@@ -95,15 +65,53 @@ public class AddholidaytablesActivity extends AppCompatActivity {
                 cancel();
             }
         });
-        btnedit = (Button) findViewById(R.id.editButton);
-        btnedit.setOnClickListener(new View.OnClickListener() {
+
+        ListButton = (Button) findViewById(R.id.ListButton);
+        ListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (choices.equals("0000000")) {
+                addremove1=checked();
+                choices = LoginActivity.getchoices;
+                System.out.println("First " + addremove1 + " " + choices);
+                if (addremove1.equals("0000000")) {
+                    LoginActivity.getchoices = addremove1;
+                    for( int i=0; i<addremove1.length(); i++)
+                    {
+                        if(addremove1.charAt(i) != choices.charAt(i))
+                        {
+                            if(addremove1.charAt(i) == '1')
+                                Addtables(email1, get_category(Integer.toString(i+1)));
+                            else Removetables(email1, get_category(Integer.toString(i+1)));
+                        }
+
+                    }
                     Toast.makeText(getApplicationContext(),
                             "No Choices!", Toast.LENGTH_SHORT).show();
                 }
-                else show_holiday();
+                else {
+                    toast = Toast.makeText(getApplicationContext(), "Loading...", Toast.LENGTH_SHORT);
+                    changechoices( email1, addremove1);
+                    choices = LoginActivity.getchoices;
+                    cnt1 = cnt2 = 0;
+                    for( int i=0; i<addremove1.length(); i++)
+                    {
+                        System.out.println(i + " " + addremove1.charAt(i)+choices.charAt(i));
+                        if(addremove1.charAt(i) != choices.charAt(i))
+                        {
+                            if(addremove1.charAt(i) == '1') {
+                                cnt1++;
+                                Addtables(email1, get_category(Integer.toString(i+1)));
+                            }
+                            else Removetables(email1, get_category(Integer.toString(i+1)));
+                        }
+
+                    }
+                    System.out.println("before "+cnt1);
+                    LoginActivity.getchoices = addremove1;
+                   // markchoices();
+                    if(cnt1==0) show_holiday();
+                    else toast.show();
+                }
             }
         });
 
@@ -141,13 +149,11 @@ public class AddholidaytablesActivity extends AppCompatActivity {
     {
         Intent intent = new Intent(AddholidaytablesActivity.this, ShowMyHolidays.class);
         startActivity(intent);
-        finish();
     }
     private void cancel()
     {
         Intent intent = new Intent(AddholidaytablesActivity.this, MainActivity.class);
         startActivity(intent);
-        finish();
     }
     private void Addtables(final String email1, final String addremove2)
     {
@@ -187,11 +193,13 @@ public class AddholidaytablesActivity extends AppCompatActivity {
                             data.add(holiday);
                         }
 
-                        String successMsg = "Your choice has been updated!";
-                       // System.out.println(successMsg);
-                        Toast.makeText(getApplicationContext(),
-                                successMsg, Toast.LENGTH_SHORT).show();
                         dbHandler.addData(email1, data);
+                        cnt2++;
+                        System.out.println("after " + cnt1 + " " + cnt2);
+                        if(cnt1==cnt2) {
+                            show_holiday();
+                            toast.cancel();
+                        }
 
                     } else {
                         String errorMsg = "error_msg";
@@ -258,8 +266,8 @@ public class AddholidaytablesActivity extends AppCompatActivity {
 
                         String successMsg = "Your choice has been updated!";
                         //System.out.println(successMsg);
-                        Toast.makeText(getApplicationContext(),
-                                successMsg, Toast.LENGTH_SHORT).show();
+                        /*Toast.makeText(getApplicationContext(),
+                                successMsg, Toast.LENGTH_SHORT).show();*/
 
                     } else {
                         String errorMsg = "error_msg";
@@ -300,6 +308,7 @@ public class AddholidaytablesActivity extends AppCompatActivity {
     }
 
 
+
     private void Removetables(final String email1, final String addremove2) {
         dbHandler.deleteData(email1,addremove2);
 
@@ -321,7 +330,7 @@ public class AddholidaytablesActivity extends AppCompatActivity {
         else if(ii.equals( "4")) ret = "DU_Teacher";
         else if(ii.equals( "5")) ret = "Buet_Student";
         else if(ii.equals( "6")) ret = "Buet_Teacher";
-        else if(ii.equals( "7")) ret = "bankholidays";
+        else if(ii.equals( "7")) ret = "Bank_Holidays";
         //System.out.println("ret = " + ret);
         return ret;
 
@@ -332,7 +341,6 @@ public class AddholidaytablesActivity extends AppCompatActivity {
      if (!pDialog.isShowing())
      pDialog.show();
      }
-
      private void hideDialog() {
      if (pDialog.isShowing())
      pDialog.dismiss();

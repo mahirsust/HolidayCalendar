@@ -89,31 +89,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/button3"
-        android:layout_marginEnd="15dp"
-        android:layout_alignBaseline="@+id/button"
-        android:layout_alignBottom="@+id/button"
+        android:layout_marginEnd="50dp"
+        android:layout_marginTop="480dp"
         android:layout_alignParentEnd="true" />
-
-
-
-    <Button
-        android:text="ADD"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:layout_marginLeft="10dp"
-        android:id="@+id/button"
-
-        android:layout_alignParentBottom="true"
         />
     <Button
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editButton"
+        android:layout_marginTop="480dp"
+        android:id="@+id/ListButton"
         android:text="List of Holidays"
-        android:layout_alignBaseline="@id/button"
-        android:layout_marginLeft="110dp"
+
+        android:layout_marginLeft="50dp"
 
         />
 </RelativeLayout>

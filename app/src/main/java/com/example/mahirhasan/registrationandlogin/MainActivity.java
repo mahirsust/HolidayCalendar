@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnupdateholiday;
     private Button btnshowcalendar;
     private Session session;
+    private TextView welcome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolBar);
+
+        welcome = (TextView) findViewById(R.id.welcometext);
+        welcome.setText("Welcome " + LoginActivity.getemail + "!");
 
         btnaddholiday = (Button) findViewById(R.id.btnaddholidaytables);
         btnaddholiday.setOnClickListener(new View.OnClickListener() {
@@ -37,13 +42,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-       /* btnupdateholiday = (Button) findViewById(R.id.btnupdateholidaytables);
-        btnupdateholiday.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                updateholiday();
-            }
-        });*/
 
         btnshowcalendar = (Button) findViewById(R.id.btnshowmycalendar);
         btnshowcalendar.setOnClickListener(new View.OnClickListener() {
@@ -72,36 +70,24 @@ public class MainActivity extends AppCompatActivity {
     {
         Intent intent = new Intent(MainActivity.this, AddholidaytablesActivity.class);
         startActivity(intent);
-        finish();
+        //finish();
     }
     private void updateholiday()
     {
         Intent intent = new Intent(MainActivity.this, UpdateholidaytablesActivity.class);
         startActivity(intent);
-        finish();
+        //finish();
     }
     private void showcalendar()
     {
         Intent intent = new Intent(MainActivity.this, ShowmycalendarActivity.class);
         startActivity(intent);
-        finish();
+        //finish();
     }
     private void logoutUser() {
         session.setLogin(false);
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
-        finish();
+        //finish();
     }
 }
-/*<TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="30dp"
-                android:text="StartingAndroid.com"
-                android:textColor="#2c3e50"
-                android:textSize="30sp"
-                android:textStyle="bold" />
-                */

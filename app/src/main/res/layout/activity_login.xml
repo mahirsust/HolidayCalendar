@@ -38,6 +38,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Email"
+                        android:text="mm"
                         android:inputType="textEmailAddress"
                         android:singleLine="true" />
 
@@ -54,6 +55,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="password"
+                        android:text="mm"
                         android:inputType="textPassword"
                         android:singleLine="true" />
 

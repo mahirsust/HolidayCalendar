@@ -23,13 +23,13 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="already_have_an_account_sign_in">Already have an account! Sign In</string>
     <string-array name="category_array">
-        <item>sust_student</item>
-        <item>sust_teacher</item>
-        <item>du_student</item>
-        <item>du_teacher</item>
-        <item>buet_student</item>
-        <item>buet_teacher</item>
-        <item>bankholidays</item>
+        <item>SUST_Student</item>
+        <item>SUST_Teacher</item>
+        <item>DU_Student</item>
+        <item>DU_Teacher</item>
+        <item>BUET_Student</item>
+        <item>BUET_Teacher</item>
+        <item>Bank_Holidays</item>
     </string-array>
     <string name="title_activity_addholidaytables">AddholidaytablesActivity</string>
 
