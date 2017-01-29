@@ -1,13 +1,11 @@
 package com.example.mahirhasan.registrationandlogin;
 
 import android.app.Activity;
-import android.app.Application;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -58,29 +56,7 @@ public  class listviewAdapter extends BaseAdapter {
         TextView Date =  (TextView) view.findViewById(R.id.date);
         Date.setText(data.getDate());
 
-       /* Event.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("KAJ KORSE");
-                Toast.makeText(v.getContext(), "Hello", Toast.LENGTH_SHORT);
-            }
-        });
 
-        Date.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("KAJ KORSE");
-                Toast.makeText(v.getContext(), "Hello", Toast.LENGTH_SHORT);
-            }
-        });
-
-        Category.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("KAJ KORSE");
-                Toast.makeText(v.getContext(), "Hello", Toast.LENGTH_SHORT);
-            }
-        });*/
 
         return view;
     }

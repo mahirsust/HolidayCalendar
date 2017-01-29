@@ -31,7 +31,7 @@ public class Main2Activity extends AppCompatActivity{
     MyDBHandler dbHandler;
     public static String select;
     public static ArrayList<Holiday> list;
-    private String date, event, category;
+    private String date, event, category,email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +44,7 @@ public class Main2Activity extends AppCompatActivity{
         dbHandler = new MyDBHandler(this, null, null, 1);
         list = new ArrayList<Holiday>();
 
-        welcome = (TextView) findViewById(R.id.welcometext);
-        welcome.setText("Welcome " + LoginActivity.getemail + "!");
+        email = LoginActivity.getemail;
 
         btnLogout = (Button) findViewById(R.id.btnLogout);
         btn1 = (Button) findViewById(R.id.sust_student);
@@ -125,6 +124,7 @@ public class Main2Activity extends AppCompatActivity{
     private void logoutUser() {
         session.setLogin(false);
         Intent intent = new Intent(Main2Activity.this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
 
@@ -132,26 +132,16 @@ public class Main2Activity extends AppCompatActivity{
         //System.out.println("here for " + addremove2);
         // Tag used to cancel the request
         String tag_string_req = "req_addremovetables";
-        System.out.println(email1 + " " + addremove2);
-
-        //pDialog.setMessage("Registering ...");
-        //showDialog();
-
         StringRequest strReq = new StringRequest(Request.Method.POST,
                 AppURLs.URL, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
-                //hideDialog();
 
                 try {
-                    //System.out.println(response);
-                    //System.out.println("1error");
+
                     JSONObject jObj = new JSONObject(response);
-                    //System.out.println("error1");
                     boolean error = jObj.getBoolean("error");
-                    //System.out.println("errorpaisi");
-                    //data = new Vector<>();
                     list.clear();
                     if (!error) {
 
@@ -164,20 +154,17 @@ public class Main2Activity extends AppCompatActivity{
                             Holiday holiday = new Holiday(event, date, category);
                             list.add(holiday);
                         }
-                        System.out.println("Size " + list.size());
-                        show_holiday();
-                        //toast.cancel();
 
-
+                       show_holiday();
                     } else {
                         String errorMsg = "error_msg";
-                        Toast.makeText(getApplicationContext(),
-                                errorMsg, Toast.LENGTH_SHORT).show();
+                       /* Toast.makeText(getApplicationContext(),
+                                errorMsg, Toast.LENGTH_SHORT).show();*/
                     }
                 } catch (JSONException e) {
                     String errorMsg = "error_msg1";
-                    Toast.makeText(getApplicationContext(),
-                            errorMsg, Toast.LENGTH_SHORT).show();
+                    /*Toast.makeText(getApplicationContext(),
+                            errorMsg, Toast.LENGTH_SHORT).show();*/
                 }
             }
         }, new Response.ErrorListener() {
@@ -185,8 +172,74 @@ public class Main2Activity extends AppCompatActivity{
             @Override
             public void onErrorResponse(VolleyError error) {
                 String errorMsg = "error_msg2";
-                Toast.makeText(getApplicationContext(),
-                        errorMsg, Toast.LENGTH_SHORT).show();
+               /* Toast.makeText(getApplicationContext(),
+                        errorMsg, Toast.LENGTH_SHORT).show();*/
+                //hideDialog();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting params to register url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("tag", "getalldata1");
+                params.put("email", email1);
+                params.put("u_category", addremove2);
+
+                return params;
+            }
+
+        };
+
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+    }
+
+    public void refreshList(final String email1, final String addremove2) {
+        //System.out.println("here for " + addremove2);
+        // Tag used to cancel the request
+        String tag_string_req = "req_addremovetables";
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                AppURLs.URL, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+
+                try {
+
+                    JSONObject jObj = new JSONObject(response);
+                    boolean error = jObj.getBoolean("error");
+                    list.clear();
+                    if (!error) {
+
+                        JSONArray ar = jObj.getJSONArray("user");
+                        for( int ii=0; ii<ar.length(); ii++)
+                        {
+                            date = ar.getJSONObject(ii).getString("Date");
+                            event = ar.getJSONObject(ii).getString("Event");
+                            category = get_category(ar.getJSONObject(ii).getString("Category"));
+                            Holiday holiday = new Holiday(event, date, category);
+                            list.add(holiday);
+                        }
+
+                       // show_holiday();
+                    } else {
+                        String errorMsg = "error_msg";
+                       /* Toast.makeText(getApplicationContext(),
+                                errorMsg, Toast.LENGTH_SHORT).show();*/
+                    }
+                } catch (JSONException e) {
+                    String errorMsg = "error_msg1";
+                    /*Toast.makeText(getApplicationContext(),
+                            errorMsg, Toast.LENGTH_SHORT).show();*/
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                String errorMsg = "error_msg2";
+                /*Toast.makeText(getApplicationContext(),
+                        errorMsg, Toast.LENGTH_SHORT).show();*/
                 //hideDialog();
             }
         }) {

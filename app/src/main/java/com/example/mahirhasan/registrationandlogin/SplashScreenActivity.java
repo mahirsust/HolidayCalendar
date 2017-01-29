@@ -54,7 +54,6 @@ public class SplashScreenActivity extends Activity {
                 if (session.getLoggedIn()) {
                     get_cur_email();
                     getChoice();
-
                     Intent i = new Intent(SplashScreenActivity.this,
                             MainActivity.class);
                     startActivity(i);
@@ -128,8 +127,8 @@ public class SplashScreenActivity extends Activity {
 
                     } else {
                         String errorMsg = jObj.getString("error_msg");
-                        Toast.makeText(getApplicationContext(),
-                                errorMsg, Toast.LENGTH_LONG).show();
+                      /*  Toast.makeText(getApplicationContext(),
+                                errorMsg, Toast.LENGTH_LONG).show();*/
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -140,8 +139,8 @@ public class SplashScreenActivity extends Activity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_LONG).show();
+               /* Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_LONG).show();*/
             }
         }) {
 
@@ -179,8 +178,8 @@ public class SplashScreenActivity extends Activity {
                     boolean error = jObj.getBoolean("error");
                     if(error == true) {
                         String errorMsg = jObj.getString("error_msg");
-                        Toast.makeText(getApplicationContext(),
-                                errorMsg, Toast.LENGTH_LONG).show();
+                       /* Toast.makeText(getApplicationContext(),
+                                errorMsg, Toast.LENGTH_LONG).show();*/
                     }
                     else{
                         st = jObj.getString("email");
@@ -197,8 +196,8 @@ public class SplashScreenActivity extends Activity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_LONG).show();
+                /*Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_LONG).show();*/
             }
         }) {
 

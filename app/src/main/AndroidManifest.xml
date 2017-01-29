@@ -46,7 +46,8 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".ShowMyHolidays" />
         <activity android:name=".Main2Activity" />
-        <activity android:name=".ShowMyHolidays2"></activity>
+        <activity android:name=".ShowMyHolidays2" />
+        <activity android:name=".UpdateholidaytablesActivity2"></activity>
     </application>
 
 </manifest>

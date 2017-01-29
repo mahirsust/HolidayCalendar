@@ -33,7 +33,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
-public class UpdateholidaytablesActivity extends AppCompatActivity {
+public class UpdateholidaytablesActivity2 extends AppCompatActivity {
 
     private DatePicker datePicker;
     private Calendar calendar;
@@ -43,17 +43,16 @@ public class UpdateholidaytablesActivity extends AppCompatActivity {
     private Button btnsave;
     private String category, email, event, date2;
     private EditText event_name, cat;
-    private int year, month, day, id;
+    private int year, month, day, id, cnt1, cnt2;
     private String from_date, to_date, mid_date, st, st1;
     Vector<Holiday> data = new Vector<Holiday>();
     MyDBHandler dbHandler;
-    private Spinner spinner;
     private Date from, to;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_updateholidaytables);
+        setContentView(R.layout.activity_updateholidaytables2);
         fromView = (Button) findViewById(R.id.from_field);
         toView = (Button) findViewById(R.id.to_field);
         calendar = Calendar.getInstance();
@@ -61,11 +60,7 @@ public class UpdateholidaytablesActivity extends AppCompatActivity {
         month = calendar.get(Calendar.MONTH)+1;
         day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        spinner = (Spinner) findViewById(R.id.spinner2);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.category_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        category = Main2Activity.select;
 
         email = LoginActivity.getemail;
         dbHandler = new MyDBHandler(this, null, null, 1);
@@ -77,7 +72,6 @@ public class UpdateholidaytablesActivity extends AppCompatActivity {
                 .append(month).append("-").append(day));
 
         event_name = (EditText) findViewById(R.id.editText);
-        //cat = (EditText) findViewById(R.id.editText2);
 
         st  = Integer.toString(month);
         if(month>=1 && month<=9) st = "0"+st;
@@ -91,11 +85,8 @@ public class UpdateholidaytablesActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                category = spinner.getSelectedItem().toString();;
                 event = event_name.getText().toString();
-                //setDate(view);
                 mid_date = from_date;
-
 
                 if (event.equals("")) {
                     Snackbar.make(view, "Please enter the credentials!", Snackbar.LENGTH_LONG)
@@ -103,8 +94,7 @@ public class UpdateholidaytablesActivity extends AppCompatActivity {
                 }
 
                 else{
-                   // System.out.println(from_date +" " + to_date);
-
+                    System.out.println(from_date + " " + to_date);
                     SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
                     try {
                         from = sdf1.parse(from_date);
@@ -115,32 +105,30 @@ public class UpdateholidaytablesActivity extends AppCompatActivity {
                         Snackbar.make(view, "Check your dates!", Snackbar.LENGTH_LONG).show();
                     }
                     else {
+                        cnt1 = cnt2 = 0;
                         for(int i=0; ; i++){
+                            cnt1++;
                             Holiday holiday = new Holiday(event, mid_date, category);
-                            data.add(holiday);
+                            admin_update3(holiday);
                             if (mid_date.equals(to_date)) break;
                             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                             Calendar c = Calendar.getInstance();
-
                             try {
                                 c.setTime(sdf.parse(mid_date));
                             } catch (Exception e) {}
-
-                            c.add(Calendar.DATE, 1);
+                            c.add(Calendar.DATE, 1);  // number of days to add
+                            //System.out.println("error paisi2");
                             mid_date = sdf.format(c.getTime()).toString();
 
                         }
-                        dbHandler.addData(email, data);
+
                         Toast.makeText(getApplicationContext(),
                                 "Added!", Toast.LENGTH_SHORT).show();
-                        setResult(0);
-                        Intent intent = new Intent(UpdateholidaytablesActivity.this, ShowMyHolidays.class);
-                        startActivity(intent);
-                        finish();
 
                     }
 
                 }
+
 
             }
         });
@@ -152,6 +140,17 @@ public class UpdateholidaytablesActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+    }
+
+    private void newIntent() {
+
+        setResult(0);
+        new Main2Activity().refreshList(LoginActivity.getemail, Main2Activity.select);
+        Intent intent = new Intent(UpdateholidaytablesActivity2.this, ShowMyHolidays2.class);
+        startActivity(intent);
+        finish();
+
 
     }
 
@@ -168,15 +167,14 @@ public class UpdateholidaytablesActivity extends AppCompatActivity {
                 throw new RuntimeException("Unknow button ID");
         }
         showDialog(id);
-        /*Toast.makeText(getApplicationContext(), "success", Toast.LENGTH_SHORT)
-                .show();*/
+
     }
 
     @Override
     protected Dialog onCreateDialog(int id) {
         // TODO Auto-generated method stub
         if (id == 999 || id == 9999) {
-            return new DatePickerDialog(UpdateholidaytablesActivity.this, myDateListener, year, month-1, day);
+            return new DatePickerDialog(UpdateholidaytablesActivity2.this, myDateListener, year, month-1, day);
         }
         return null;
     }
@@ -184,9 +182,7 @@ public class UpdateholidaytablesActivity extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
-
-            if (id == 9999)
-            {
+            if (id == 9999) {
                 arg2++;
                 st  = Integer.toString(arg2);
                 if(arg2>=1 && arg2<=9) st = "0"+st;
@@ -195,8 +191,7 @@ public class UpdateholidaytablesActivity extends AppCompatActivity {
                 from_date = arg1 + "-" + st + "-" + st1;
                 fromView.setText(from_date);
             }
-            else if (id == 999)
-            {
+            else if (id == 999) {
                 arg2++;
                 st  = Integer.toString(arg2);
                 if(arg2>=1 && arg2<=9) st = "0"+st;
@@ -208,5 +203,74 @@ public class UpdateholidaytablesActivity extends AppCompatActivity {
         }
     };
 
+    private void admin_update3(final Holiday h)
+    {
+
+        String tag_string_req = "req_addremovetables";
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                AppURLs.URL, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    boolean error = jObj.getBoolean("error");
+
+                    if (!error) {
+                        cnt2++;
+                        if(cnt1 == cnt2) newIntent();
+                    }
+                    else {
+                        String errorMsg = "error_msg";
+                       /* Toast.makeText(getApplicationContext(),
+                                errorMsg, Toast.LENGTH_SHORT).show();*/
+                    }
+                } catch (JSONException e) {
+                    String errorMsg = "error_msg1";
+                   /* Toast.makeText(getApplicationContext(),
+                            errorMsg, Toast.LENGTH_SHORT).show();*/
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                String errorMsg = "error_msg2";
+                /*Toast.makeText(getApplicationContext(),
+                        errorMsg, Toast.LENGTH_SHORT).show();*/
+                //hideDialog();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting params to register url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("tag", "admin_update3");
+                params.put("table_name", h.getCategory());
+                params.put("event", h.getName());
+                params.put("date", h.getDate());
+                params.put("category", getNum(h.getCategory()));
+
+                return params;
+            }
+
+        };
+
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+    }
+
+    private String getNum(String ii) {
+        String ret = "";
+        if(ii.equals( "SUST_Student")) ret = "1";
+        else if(ii.equals( "SUST_Teacher")) ret = "2";
+        else if(ii.equals( "DU_Student")) ret = "3";
+        else if(ii.equals( "DU_Teacher")) ret = "4";
+        else if(ii.equals( "Buet_Student")) ret = "5";
+        else if(ii.equals( "Buet_Teacher")) ret = "6";
+        else if(ii.equals( "Bank_Holidays")) ret = "7";
+        return ret;
+
+    }
 
 }

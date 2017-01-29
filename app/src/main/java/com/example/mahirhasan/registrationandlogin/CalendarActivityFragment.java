@@ -123,6 +123,7 @@ public class CalendarActivityFragment extends Fragment implements FlexibleCalend
             @Override
             public List<CalendarEvent> getEventsForTheDay(int year, int month, int day) {
                 List<CalendarEvent> eventColors = new ArrayList<>(2);
+                int cnt = 0;
                 for(int i=0; i<data.size(); i++){
                     String ss = data.get(i).getDate();
                     yy = Integer.parseInt(ss.substring(0, 4));
@@ -132,7 +133,8 @@ public class CalendarActivityFragment extends Fragment implements FlexibleCalend
                     //System.out.println(i + " " + category);
 
                 if (year == yy && month == mm-1 && day == dd) {
-                     eventColors.add(new CalendarEvent(android.R.color.holo_red_dark));
+                    if(cnt<1)eventColors.add(new CalendarEvent(android.R.color.holo_red_dark));
+                    cnt++;
                 }
             }
 

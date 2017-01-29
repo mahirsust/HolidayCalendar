@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnshowcalendar;
     private Session session;
     private TextView welcome;
+    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +32,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolBar);
 
-        welcome = (TextView) findViewById(R.id.welcometext);
-        welcome.setText("Welcome " + LoginActivity.getemail + "!");
+        email = LoginActivity.getemail;
 
         btnaddholiday = (Button) findViewById(R.id.btnaddholidaytables);
         btnaddholiday.setOnClickListener(new View.OnClickListener() {
@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
     private void logoutUser() {
         session.setLogin(false);
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         //finish();
     }

@@ -27,7 +27,7 @@ import java.util.Vector;
 public class AddholidaytablesActivity extends AppCompatActivity {
 
     private Button btncancel;
-    private Button ListButton;
+    private Button ListButton, showCalendar;
     private int cnt1, cnt2;
     private CheckBox check, c1, c2, c3, c4, c5, c6, c7;
     private static String addremove1, email1;
@@ -54,6 +54,8 @@ public class AddholidaytablesActivity extends AppCompatActivity {
         dbHandler = new MyDBHandler(this, null, null, 1);
         dbHandler.setName(email1);
         email1 = LoginActivity.getemail;
+        dbHandler.CreateTable(email1);
+        System.out.println(email1);
         choices = LoginActivity.getchoices;
 
         if(choices != null) markchoices();
@@ -72,7 +74,7 @@ public class AddholidaytablesActivity extends AppCompatActivity {
             public void onClick(View v) {
                 addremove1=checked();
                 choices = LoginActivity.getchoices;
-                System.out.println("First " + addremove1 + " " + choices);
+                //System.out.println("First " + addremove1 + " " + choices);
                 if (addremove1.equals("0000000")) {
                     LoginActivity.getchoices = addremove1;
                     for( int i=0; i<addremove1.length(); i++)
@@ -95,7 +97,7 @@ public class AddholidaytablesActivity extends AppCompatActivity {
                     cnt1 = cnt2 = 0;
                     for( int i=0; i<addremove1.length(); i++)
                     {
-                        System.out.println(i + " " + addremove1.charAt(i)+choices.charAt(i));
+                       // System.out.println(i + " " + addremove1.charAt(i)+choices.charAt(i));
                         if(addremove1.charAt(i) != choices.charAt(i))
                         {
                             if(addremove1.charAt(i) == '1') {
@@ -106,10 +108,57 @@ public class AddholidaytablesActivity extends AppCompatActivity {
                         }
 
                     }
-                    System.out.println("before "+cnt1);
+                   // System.out.println("before "+cnt1);
                     LoginActivity.getchoices = addremove1;
                    // markchoices();
                     if(cnt1==0) show_holiday();
+                    else toast.show();
+                }
+            }
+        });
+
+        showCalendar = (Button) findViewById(R.id.showCalendar);
+        showCalendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addremove1=checked();
+                choices = LoginActivity.getchoices;
+                //System.out.println("First " + addremove1 + " " + choices);
+                if (addremove1.equals("0000000")) {
+                    LoginActivity.getchoices = addremove1;
+                    for( int i=0; i<addremove1.length(); i++)
+                    {
+                        if(addremove1.charAt(i) != choices.charAt(i))
+                        {
+                            if(addremove1.charAt(i) == '1')
+                                Addtables(email1, get_category(Integer.toString(i+1)));
+                            else Removetables(email1, get_category(Integer.toString(i+1)));
+                        }
+
+                    }
+                    Toast.makeText(getApplicationContext(),
+                            "No Choices!", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    toast = Toast.makeText(getApplicationContext(), "Loading...", Toast.LENGTH_SHORT);
+                    changechoices( email1, addremove1);
+                    choices = LoginActivity.getchoices;
+                    cnt1 = cnt2 = 0;
+                    for( int i=0; i<addremove1.length(); i++)
+                    {
+                        // System.out.println(i + " " + addremove1.charAt(i)+choices.charAt(i));
+                        if(addremove1.charAt(i) != choices.charAt(i))
+                        {
+                            if(addremove1.charAt(i) == '1') {
+                                cnt1++;
+                                Addtables2(email1, get_category(Integer.toString(i+1)));
+                            }
+                            else Removetables(email1, get_category(Integer.toString(i+1)));
+                        }
+
+                    }
+                    LoginActivity.getchoices = addremove1;
+                    if(cnt1==0) show_calendar();
                     else toast.show();
                 }
             }
@@ -150,6 +199,11 @@ public class AddholidaytablesActivity extends AppCompatActivity {
         Intent intent = new Intent(AddholidaytablesActivity.this, ShowMyHolidays.class);
         startActivity(intent);
     }
+    private void show_calendar()
+    {
+        Intent intent = new Intent(AddholidaytablesActivity.this, ShowmycalendarActivity.class);
+        startActivity(intent);
+    }
     private void cancel()
     {
         Intent intent = new Intent(AddholidaytablesActivity.this, MainActivity.class);
@@ -157,28 +211,18 @@ public class AddholidaytablesActivity extends AppCompatActivity {
     }
     private void Addtables(final String email1, final String addremove2)
     {
-        //System.out.println("here for " + addremove2);
-        // Tag used to cancel the request
+
         String tag_string_req = "req_addremovetables";
-
-        //pDialog.setMessage("Registering ...");
-        //showDialog();
-
         StringRequest strReq = new StringRequest(Request.Method.POST,
                 AppURLs.URL, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
-                //hideDialog();
 
                 try {
-                    //System.out.println(response);
-                    //System.out.println("1error");
+
                     JSONObject jObj = new JSONObject(response);
-                    //System.out.println("error1");
                     boolean error = jObj.getBoolean("error");
-                    //System.out.println("errorpaisi");
-                    //data = new Vector<>();
 
                     data.clear();
                     if (!error) {
@@ -195,7 +239,6 @@ public class AddholidaytablesActivity extends AppCompatActivity {
 
                         dbHandler.addData(email1, data);
                         cnt2++;
-                        System.out.println("after " + cnt1 + " " + cnt2);
                         if(cnt1==cnt2) {
                             show_holiday();
                             toast.cancel();
@@ -203,13 +246,13 @@ public class AddholidaytablesActivity extends AppCompatActivity {
 
                     } else {
                         String errorMsg = "error_msg";
-                        Toast.makeText(getApplicationContext(),
-                                errorMsg, Toast.LENGTH_SHORT).show();
+                       /* Toast.makeText(getApplicationContext(),
+                                errorMsg, Toast.LENGTH_SHORT).show();*/
                     }
                 } catch (JSONException e) {
                     String errorMsg = "error_msg1";
-                    Toast.makeText(getApplicationContext(),
-                            errorMsg, Toast.LENGTH_SHORT).show();
+                  /*  Toast.makeText(getApplicationContext(),
+                            errorMsg, Toast.LENGTH_SHORT).show();*/
                 }
             }
         }, new Response.ErrorListener() {
@@ -217,8 +260,8 @@ public class AddholidaytablesActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 String errorMsg = "error_msg2";
-                Toast.makeText(getApplicationContext(),
-                        errorMsg, Toast.LENGTH_SHORT).show();
+               /* Toast.makeText(getApplicationContext(),
+                        errorMsg, Toast.LENGTH_SHORT).show();*/
                 //hideDialog();
             }
         }) {
@@ -254,7 +297,7 @@ public class AddholidaytablesActivity extends AppCompatActivity {
                 //hideDialog();
 
                 try {
-                    System.out.println(response);
+                    //System.out.println(response);
                     //System.out.println("1error");
                     JSONObject jObj = new JSONObject(response);
                     //System.out.println("error1");
@@ -271,13 +314,13 @@ public class AddholidaytablesActivity extends AppCompatActivity {
 
                     } else {
                         String errorMsg = "error_msg";
-                        Toast.makeText(getApplicationContext(),
-                                errorMsg, Toast.LENGTH_SHORT).show();
+                        /*Toast.makeText(getApplicationContext(),
+                                errorMsg, Toast.LENGTH_SHORT).show();*/
                     }
                 } catch (JSONException e) {
                     String errorMsg = "error_msg1Here";
-                    Toast.makeText(getApplicationContext(),
-                            errorMsg, Toast.LENGTH_SHORT).show();
+                   /* Toast.makeText(getApplicationContext(),
+                            errorMsg, Toast.LENGTH_SHORT).show();*/
                 }
             }
         }, new Response.ErrorListener() {
@@ -285,8 +328,8 @@ public class AddholidaytablesActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 String errorMsg = "error_msg2";
-                Toast.makeText(getApplicationContext(),
-                        errorMsg, Toast.LENGTH_LONG).show();
+                /*Toast.makeText(getApplicationContext(),
+                        errorMsg, Toast.LENGTH_LONG).show();*/
                 //hideDialog();
             }
         }) {
@@ -307,7 +350,78 @@ public class AddholidaytablesActivity extends AppCompatActivity {
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }
 
+    private void Addtables2(final String email1, final String addremove2)
+    {
 
+        String tag_string_req = "req_addremovetables";
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                AppURLs.URL, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+
+                try {
+
+                    JSONObject jObj = new JSONObject(response);
+                    boolean error = jObj.getBoolean("error");
+
+                    data.clear();
+                    if (!error) {
+
+                        JSONArray ar = jObj.getJSONArray("user");
+                        for( int ii=0; ii<ar.length(); ii++)
+                        {
+                            date1 = ar.getJSONObject(ii).getString("Date");
+                            event1 = ar.getJSONObject(ii).getString("Event");
+                            category1 = ar.getJSONObject(ii).getString("Category");
+                            Holiday holiday = new Holiday(event1, date1, category1);
+                            data.add(holiday);
+                        }
+
+                        dbHandler.addData(email1, data);
+                        cnt2++;
+                        if(cnt1==cnt2) {
+                            show_calendar();
+                            toast.cancel();
+                        }
+
+                    } else {
+                        String errorMsg = "error_msg";
+                       /* Toast.makeText(getApplicationContext(),
+                                errorMsg, Toast.LENGTH_SHORT).show();*/
+                    }
+                } catch (JSONException e) {
+                    String errorMsg = "error_msg1";
+                  /*  Toast.makeText(getApplicationContext(),
+                            errorMsg, Toast.LENGTH_SHORT).show();*/
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                String errorMsg = "error_msg2";
+               /* Toast.makeText(getApplicationContext(),
+                        errorMsg, Toast.LENGTH_SHORT).show();*/
+                //hideDialog();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting params to register url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("tag", "getalldata1");
+                params.put("email", email1);
+                params.put("u_category", addremove2);
+
+                return params;
+            }
+
+        };
+
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+    }
 
     private void Removetables(final String email1, final String addremove2) {
         dbHandler.deleteData(email1,addremove2);
@@ -336,14 +450,5 @@ public class AddholidaytablesActivity extends AppCompatActivity {
 
     }
 
-
-    /**private void showDialog() {
-     if (!pDialog.isShowing())
-     pDialog.show();
-     }
-     private void hideDialog() {
-     if (pDialog.isShowing())
-     pDialog.dismiss();
-     }*/
 
 }

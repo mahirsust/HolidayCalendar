@@ -27,9 +27,9 @@ public class MyDBHandler extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String query = "CREATE TABLE IF NOT EXISTS " + Table_Name + "(" + COLUMN_HolidayName + " TEXT, " + COLUMN_date + " TEXT, "
+       /* String query = "CREATE TABLE IF NOT EXISTS " + Table_Name + "(" + COLUMN_HolidayName + " TEXT, " + COLUMN_date + " TEXT, "
                 +  COLUMN_category + " TEXT " +");";
-        db.execSQL(query);
+        db.execSQL(query);*/
     }
 
     @Override
@@ -39,7 +39,7 @@ public class MyDBHandler extends SQLiteOpenHelper{
     }
 
     public void CreateTable(String Table_Name) {
-        String query = "CREATE TABLE " + Table_Name + "(" + COLUMN_HolidayName + " TEXT, " + COLUMN_date + " TEXT, " +  COLUMN_category + " TEXT " +");";
+        String query = "CREATE TABLE IF NOT EXISTS " + Table_Name + "(" + COLUMN_HolidayName + " TEXT, " + COLUMN_date + " TEXT, " +  COLUMN_category + " TEXT " +");";
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL(query);
     }
@@ -84,13 +84,13 @@ public class MyDBHandler extends SQLiteOpenHelper{
                 +"\"" + " AND " + COLUMN_date + "=\"" + date + "\";");
     }
 
-    public void updateData(String Table_Name, String name, String date, String category){
+    public void updateData(String Table_Name, String name1, String date1, String category1, String name0, String date0, String category0){
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("UPDATE " + Table_Name + " SET " + COLUMN_HolidayName + "=\"" + name + "\","
-                + COLUMN_category + "=\"" + category + "\","
-                + COLUMN_date + "=\"" + date +"\""
-                +" WHERE " + COLUMN_category + "=\"" + category
-                +"\"" + " AND " + COLUMN_date + "=\"" + date + "\";");
+        db.execSQL("UPDATE " + Table_Name + " SET " + COLUMN_HolidayName + "=\"" + name1 + "\","
+                + COLUMN_category + "=\"" + category1 + "\","
+                + COLUMN_date + "=\"" + date1 +"\""
+                +" WHERE " + COLUMN_category + "=\"" + category0
+                +"\"" + " AND " + COLUMN_date + "=\"" + date0 + "\";");
     }
 
     // this is goint in record_TextView in the Main activity.

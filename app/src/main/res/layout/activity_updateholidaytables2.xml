@@ -58,17 +58,7 @@
         android:textColor="@color/colorPrimaryDark"
         />
 
-    <TextView
-        android:text="Category:"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:id="@+id/textView8"
-        android:textSize="18dp"
-        android:layout_below="@+id/textView6"
-        android:layout_alignLeft="@+id/textView6"
-        android:layout_alignStart="@+id/textView6"
-        android:layout_marginTop="30dp"
-        android:textColor="@color/colorPrimaryDark"/>
+
 
     <TextView
         android:text="From:"
@@ -76,9 +66,9 @@
         android:layout_height="40dp"
         android:id="@+id/textView7"
         android:textSize="18dp"
-        android:layout_below="@+id/textView8"
-        android:layout_alignLeft="@+id/textView8"
-        android:layout_alignStart="@+id/textView8"
+        android:layout_below="@+id/textView6"
+        android:layout_alignLeft="@+id/textView6"
+        android:layout_alignStart="@+id/textView6"
         android:layout_marginTop="30dp"
         android:textColor="@color/colorPrimaryDark"/>
 
@@ -128,15 +118,6 @@
         android:layout_marginTop="50dp"
         />
 
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/spinner2"
-        android:layout_alignBottom="@+id/textView8"
-        android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/textView6"
-        android:layout_alignTop="@+id/textView8" />
+
 
 </RelativeLayout>

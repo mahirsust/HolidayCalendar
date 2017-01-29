@@ -84,19 +84,9 @@ public class RegistrationActivity extends AppCompatActivity {
                 String password = password_to_register.getText().toString();
                 String category = spinner.getSelectedItem().toString();
                 getcategory = category;
-                //System.out.println("paisi " + category);
+
                 if (!name.isEmpty() && !email.isEmpty() && !password.isEmpty() && !category.isEmpty()) {
-
-                    dbHandler.CreateTable(email);
                     registerUser(name, email, password, category);
-                    String errorMsg = "Registration Successful!";
-                    Toast.makeText(getApplicationContext(),
-                            errorMsg, Toast.LENGTH_LONG).show();
-//                    Intent intent = new Intent(RegistrationActivity.this,
-//                            LoginActivity.class);
-//                    startActivity(intent);
-//                    finish();
-
                 } else {
                     Snackbar.make(v, "Please enter the credentials!", Snackbar.LENGTH_LONG)
                             .show();
@@ -134,21 +124,18 @@ public class RegistrationActivity extends AppCompatActivity {
                     JSONObject jObj = new JSONObject(response);
                     boolean error = jObj.getBoolean("error");
                     if (!error) {
-
-                        Intent intent = new Intent(
-                                RegistrationActivity.this,
-                                LoginActivity.class);
-                        startActivity(intent);
-                        //finish();
-//                        String successMsg = jObj.getString("success_msg");
-//                        Toast.makeText(getApplicationContext(),
-//                                successMsg, Toast.LENGTH_LONG).show();
-                        ///startActivity(intent);
-                        //finish();
-                    } else {
-                        String errorMsg = jObj.getString("error_msg");
+                        dbHandler.CreateTable(email);
+                        String errorMsg = "Registration Successful!";
                         Toast.makeText(getApplicationContext(),
                                 errorMsg, Toast.LENGTH_LONG).show();
+
+                        Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
+                        startActivity(intent);
+
+                    } else {
+                        String errorMsg = jObj.getString("error_msg");
+                       /* Toast.makeText(getApplicationContext(),
+                                errorMsg, Toast.LENGTH_LONG).show();*/
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -160,8 +147,8 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 String errorMsg = "error_msg";
-                Toast.makeText(getApplicationContext(),
-                        errorMsg, Toast.LENGTH_LONG).show();
+                /*Toast.makeText(getApplicationContext(),
+                        errorMsg, Toast.LENGTH_LONG).show();*/
             }
         }) {
 

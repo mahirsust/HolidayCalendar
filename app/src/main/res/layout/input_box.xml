@@ -13,21 +13,13 @@
         android:hint="Event Name" >
     </EditText>
 
-    <EditText
-        android:id="@+id/edit_category"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:hint="Category">
-    </EditText>
-
-    <EditText
+    <Button
         android:id="@+id/edit_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:hint="Date">
-    </EditText>
+        android:text="Date">
+    </Button>
 
     <LinearLayout
         android:layout_width="match_parent"
