@@ -234,6 +234,7 @@ public class AddholidaytablesActivity extends AppCompatActivity {
                             event1 = ar.getJSONObject(ii).getString("Event");
                             category1 = ar.getJSONObject(ii).getString("Category");
                             Holiday holiday = new Holiday(event1, date1, category1);
+                            System.out.println(date1+" "+event1+" "+category1);
                             data.add(holiday);
                         }
 
