@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -87,6 +88,7 @@ public class AddholidaytablesActivity extends AppCompatActivity {
                         }
 
                     }
+                    changechoices( email1, addremove1);
                     Toast.makeText(getApplicationContext(),
                             "No Choices!", Toast.LENGTH_SHORT).show();
                 }
@@ -211,7 +213,7 @@ public class AddholidaytablesActivity extends AppCompatActivity {
     }
     private void Addtables(final String email1, final String addremove2)
     {
-
+        System.out.println("Hello");
         String tag_string_req = "req_addremovetables";
         StringRequest strReq = new StringRequest(Request.Method.POST,
                 AppURLs.URL, new Response.Listener<String>() {
@@ -279,6 +281,10 @@ public class AddholidaytablesActivity extends AppCompatActivity {
             }
 
         };
+        strReq.setRetryPolicy(new DefaultRetryPolicy(
+                5000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }
